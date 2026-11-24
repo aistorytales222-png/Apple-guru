@@ -296,12 +296,31 @@ $('chatForm').addEventListener('submit', e => {
   if (!lang) lang = detectLang(t) || 'en';
   answer(t);
 });
+/* On phones the chat fills the screen and resizes with the keyboard (visualViewport) */
+const vv = window.visualViewport;
+function fitChat() {
+  if (chat.hidden) return;
+  if (innerWidth <= 800 && vv) {
+    chat.style.height = vv.height + 'px';
+    chat.style.top = vv.offsetTop + 'px';
+  } else { chat.style.height = ''; chat.style.top = ''; }
+  log.scrollTop = log.scrollHeight;
+}
+if (vv) { vv.addEventListener('resize', fitChat); vv.addEventListener('scroll', fitChat); }
+addEventListener('resize', fitChat);
+
 chatBtn.addEventListener('click', () => {
   chat.hidden = false; chatBtn.hidden = true;
+  document.body.classList.add('chat-open');
   if (!log.children.length) askLanguage();
-  input.focus();
+  fitChat();
+  input.focus({ preventScroll: true });
 });
-$('chatClose').addEventListener('click', () => { chat.hidden = true; chatBtn.hidden = false; });
+$('chatClose').addEventListener('click', () => {
+  chat.hidden = true; chatBtn.hidden = false;
+  document.body.classList.remove('chat-open');
+  chat.style.height = ''; chat.style.top = '';
+});
 
 /* ---------- Poster lightbox ---------- */
 const lb = $('lightbox'), lbImg = $('lbImg'), lbCap = $('lbCap');
