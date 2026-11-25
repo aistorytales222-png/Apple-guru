@@ -206,7 +206,7 @@ body.chat-open{overflow:hidden}
   .pill{padding:11px 14px;font-size:.9rem}
 }
 
-/* ===== PREMIUM UPGRADE: paste at the VERY END of style.css ===== */
+/* ===== PREMIUM UPGRADE ===== */
 
 :root{
   --gold2:#ffd77a;
@@ -383,8 +383,34 @@ td{transition:background .2s}
 .auth-box{display:grid;gap:6px;justify-items:start}
 .g-btn{width:100%;justify-content:center;padding:14px 22px;font-size:1.05rem}
 
-/* Hero image above the headline */
-.hero-visual{display:block;width:min(430px,82%);height:auto;margin:-24px 0 14px -8px;animation:floaty 6s ease-in-out infinite}
+/* Hero image above the headline, blended into the page background */
+.hero-visual{
+  display:block;width:min(430px,82%);height:auto;margin:-24px 0 14px -8px;
+  animation:floaty 6s ease-in-out infinite;
+  /* soft feathered edge on all four sides, so no rectangle shows */
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),
+                     linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);
+  -webkit-mask-composite:source-in;
+          mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),
+                     linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);
+          mask-composite:intersect;
+}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @media(max-width:800px){.hero-visual{width:min(300px,84%);margin:0 0 6px}}
 @media(prefers-reduced-motion:reduce){.hero-visual{animation:none}}
+/* ===== Hero image: remove its dark background so it blends into the page ===== */
+
+/* let the image blend with the real page background (no isolated layer) */
+.hero-text{z-index:auto}
+
+.hero-visual{
+  position:relative;
+  z-index:2;
+  mix-blend-mode:screen;              /* dark pixels become see-through */
+  filter:contrast(1.12) brightness(1.05);
+  /* soft round fade so no edge is ever visible */
+  -webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 55%,transparent 100%);
+          mask-image:radial-gradient(ellipse 62% 62% at 50% 50%,#000 55%,transparent 100%);
+  -webkit-mask-composite:source-over;
+          mask-composite:add;
+}
