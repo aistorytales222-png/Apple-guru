@@ -414,3 +414,35 @@ td{transition:background .2s}
   -webkit-mask-composite:source-over;
           mask-composite:add;
 }
+/* ===== BIG HERO IMAGE: text left, large product image right, price board full-width below ===== */
+.hero>.hero-text,.hero>.board{z-index:3}
+
+.hero>.hero-bg{position:relative;z-index:2;pointer-events:none;min-height:440px}
+.hero-bg::before{            /* glow behind the products */
+  content:"";position:absolute;inset:-10% -10%;z-index:0;
+  background:
+    radial-gradient(closest-side at 50% 50%,rgba(110,140,255,.38),transparent 70%),
+    radial-gradient(closest-side at 62% 58%,rgba(246,185,59,.20),transparent 70%);
+  filter:blur(24px);
+}
+.hero-bg .hero-visual{
+  position:absolute;inset:0;margin:auto;z-index:1;
+  width:min(125%,1000px);max-width:none;height:auto;
+  translate:-25% 0;                           /* moves the phones left, away from the corner. Use -20% to go less, -30% to go more */
+  mix-blend-mode:screen;                       /* dark background of the picture disappears */
+  filter:saturate(1.15) contrast(1.12) brightness(1.08) drop-shadow(0 30px 60px rgba(0,0,0,.5));
+  -webkit-mask-image:radial-gradient(ellipse 58% 58% at 50% 50%,#000 60%,transparent 100%);
+          mask-image:radial-gradient(ellipse 58% 58% at 50% 50%,#000 60%,transparent 100%);
+}
+
+@media(min-width:801px){
+  .hero{grid-template-columns:1fr 1.1fr;grid-template-rows:auto auto;gap:24px 40px;padding:80px 5vw 72px}
+  .hero>.hero-text{grid-column:1;grid-row:1}
+  .hero>.hero-bg{grid-column:2;grid-row:1;align-self:stretch}
+  .hero>.board{grid-column:1 / -1;grid-row:2;justify-self:center;width:100%;max-width:1000px}
+}
+@media(max-width:800px){
+  .hero>.hero-bg{order:2;min-height:300px;margin:-10px 0}
+  .hero>.board{order:3}
+  .hero-bg .hero-visual{width:min(150%,620px)}
+}
