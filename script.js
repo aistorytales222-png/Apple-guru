@@ -28,52 +28,6 @@ $('priceTable').innerHTML =
   '<tr><th>Storage</th>' + MODELS.map(m => `<th>${m}</th>`).join('') + '</tr>' +
   Object.entries(PRICES).map(([s, p]) => `<tr><td>${s}</td>${p.map(x => `<td>${rs(x)}</td>`).join('')}</tr>`).join('');
 
-/* ---------- Reviews with clickable stars (saved in this browser) ---------- */
-const list = $('reviewList'), summary = $('revSummary'), starBox = $('starPick'), starErr = $('starErr');
-const starBtns = [...starBox.querySelectorAll('button')];
-const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-let reviews = [];
-try { reviews = JSON.parse(localStorage.getItem('ag_reviews') || '[]'); } catch (e) {}
-let rating = 0;
-
-function paintStars(n) {
-  starBtns.forEach(b => b.classList.toggle('on', +b.dataset.v <= n));
-}
-function setRating(n) {
-  rating = n; paintStars(n); starErr.hidden = true;
-  starBtns.forEach(b => b.setAttribute('aria-checked', String(+b.dataset.v === n)));
-}
-starBtns.forEach(b => {
-  b.addEventListener('click', () => setRating(+b.dataset.v));
-  b.addEventListener('mouseenter', () => paintStars(+b.dataset.v));
-  b.addEventListener('focus', () => paintStars(+b.dataset.v));
-});
-starBox.addEventListener('mouseleave', () => paintStars(rating));
-starBox.addEventListener('focusout', () => paintStars(rating));
-
-function showReviews() {
-  if (reviews.length) {
-    const avg = reviews.reduce((a, r) => a + r.s, 0) / reviews.length;
-    const full = Math.round(avg);
-    summary.hidden = false;
-    summary.innerHTML = `<span class="big">${avg.toFixed(1)}</span><span class="st">${'★'.repeat(full)}${'☆'.repeat(5 - full)}</span><span>${reviews.length} review${reviews.length > 1 ? 's' : ''}</span>`;
-  } else summary.hidden = true;
-  list.innerHTML = reviews.length
-    ? reviews.map(r => `<div class="rev"><span class="st">${'★'.repeat(r.s)}${'☆'.repeat(5 - r.s)}</span> <b>${esc(r.n)}</b><p>${esc(r.t)}</p></div>`).join('')
-    : '<p class="empty">No reviews yet. Bought something from Apple Guru? Be the first to share your experience.</p>';
-}
-$('reviewForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const n = $('rName').value.trim(), t = $('rText').value.trim();
-  if (!n || !t) return;
-  if (!rating) { starErr.hidden = false; starBtns[0].focus(); return; }
-  reviews.unshift({ n, s: rating, t });
-  try { localStorage.setItem('ag_reviews', JSON.stringify(reviews)); } catch (err) {}
-  e.target.reset(); setRating(0);
-  showReviews();
-});
-showReviews();
-
 /* ---------- Chatbot ---------- */
 const chat = $('chat'), log = $('chatLog'), input = $('chatIn'), chatBtn = $('chatBtn');
 let lang = null;            // 'en' | 'ne' | 'hi' | 'other' (null until chosen)

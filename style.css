@@ -205,3 +205,180 @@ body.chat-open{overflow:hidden}
   td,td:not(:first-child){font-size:.66rem}
   .pill{padding:11px 14px;font-size:.9rem}
 }
+
+/* ===== PREMIUM UPGRADE: paste at the VERY END of style.css ===== */
+
+:root{
+  --gold2:#ffd77a;
+  --glass:rgba(255,255,255,.045);
+  --glass-line:rgba(255,255,255,.10);
+}
+
+/* ---------- Page-wide ambient background ---------- */
+body{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(246,185,59,.07), transparent 60%),
+    radial-gradient(1000px 700px at 100% 40%, rgba(70,110,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 0% 100%, rgba(238,122,29,.07), transparent 60%),
+    #070b18;
+  background-attachment:fixed;
+}
+
+/* ---------- HERO: aurora + grid + glowing orbs ---------- */
+.hero{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:96px 5vw 88px;
+  background:
+    radial-gradient(800px 420px at 85% 0%, rgba(60,100,255,.35), transparent 65%),
+    radial-gradient(700px 400px at 0% 100%, rgba(246,185,59,.16), transparent 65%),
+    linear-gradient(180deg,#060a17 0%,#0b1330 55%,#070b18 100%);
+}
+.hero>*{position:relative;z-index:2}
+
+/* fine grid that fades out toward the edges */
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 45%,#000 30%,transparent 100%);
+          mask-image:radial-gradient(ellipse 70% 70% at 50% 45%,#000 30%,transparent 100%);
+}
+
+/* two slowly drifting glow orbs (gold + blue) */
+.hero::after{
+  content:"";position:absolute;inset:-20%;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(circle 280px at 22% 30%, rgba(246,185,59,.22), transparent 70%),
+    radial-gradient(circle 340px at 80% 70%, rgba(90,130,255,.24), transparent 70%);
+  filter:blur(30px);
+  animation:drift 18s ease-in-out infinite alternate;
+}
+@keyframes drift{
+  from{transform:translate3d(-3%,-2%,0) scale(1)}
+  to  {transform:translate3d(3%,3%,0) scale(1.08)}
+}
+
+/* gold-to-white headline */
+.hero h1{
+  background:linear-gradient(180deg,#ffffff 30%,#c9d8ff 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  letter-spacing:-.02em;
+  filter:drop-shadow(0 6px 30px rgba(80,120,255,.25));
+}
+.hero p{color:#aebde0}
+
+/* ---------- Price board: glass card with gold edge + shine ---------- */
+@media(min-width:801px){
+  .hero{grid-template-columns:1fr 1.15fr}   /* wider board = no wrapped prices */
+}
+td,th{white-space:nowrap}
+
+.board{
+  position:relative;
+  border:1px solid transparent;
+  border-radius:22px;
+  padding:26px;
+  background:
+    linear-gradient(160deg,rgba(14,22,48,.92),rgba(8,12,28,.92)) padding-box,
+    linear-gradient(135deg,var(--gold2),rgba(246,185,59,.15) 40%,rgba(120,150,255,.5)) border-box;
+  backdrop-filter:blur(14px);
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 60px rgba(246,185,59,.10);
+  overflow:hidden;
+}
+.board::after{            /* light sweep across the card */
+  content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.07),transparent);
+  transform:skewX(-18deg);
+  animation:sweep 6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+
+.board h2{
+  font-size:1.25rem;letter-spacing:-.01em;
+  background:linear-gradient(90deg,#fff,var(--gold2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+th{color:var(--gold2);text-transform:uppercase;letter-spacing:.06em;font-size:.72rem}
+tr:hover td{background:rgba(246,185,59,.05)}
+td{transition:background .2s}
+
+/* ---------- Buttons ---------- */
+.btn.gold{
+  background:linear-gradient(135deg,#ffd77a,#f6b93b 55%,#e8a21f);
+  border-color:transparent;
+  box-shadow:0 10px 28px rgba(246,185,59,.28);
+}
+.btn.gold:hover{box-shadow:0 14px 36px rgba(246,185,59,.45)}
+.btn.wa{box-shadow:0 10px 28px rgba(37,211,102,.22)}
+.btn.dir{background:var(--glass);border-color:var(--glass-line);backdrop-filter:blur(8px)}
+
+/* ---------- Header: frosted glass ---------- */
+.top{
+  background:rgba(7,11,24,.70);
+  backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--glass-line);
+}
+
+/* ---------- Service cards, posters, reviews: glass + hover lift ---------- */
+.grid article,.poster,.rev-form,.info li{
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--glass-line);
+  backdrop-filter:blur(10px);
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.grid article:hover,.poster:hover{
+  transform:translateY(-6px);
+  border-color:rgba(246,185,59,.55);
+  box-shadow:0 18px 44px rgba(0,0,0,.45),0 0 30px rgba(246,185,59,.12);
+}
+.wrap h2{
+  position:relative;padding-bottom:14px;
+}
+.wrap h2::after{
+  content:"";position:absolute;left:0;bottom:0;width:56px;height:4px;border-radius:4px;
+  background:linear-gradient(90deg,var(--gold2),var(--orange));
+}
+
+/* ---------- Mobile ---------- */
+@media(max-width:800px){
+  .hero{padding:44px 5vw 40px}
+  .hero::after{animation:none}
+  td,th{white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero::after,.board::after{animation:none}
+}
+
+/* ===== Google sign-in, replies and delete ===== */
+#formFields{display:grid;gap:12px}
+#formFields[hidden]{display:none}
+.auth-note{color:var(--mute);font-size:.92rem;margin-bottom:10px}
+.auth-note.small{font-size:.8rem;margin:0}
+.auth-note b{color:var(--text)}
+.g-btn{background:#fff;color:#1f1f1f;border-color:#fff;display:inline-flex;align-items:center;gap:10px;border-radius:999px}
+.link-btn{background:none;border:0;color:var(--gold);font:inherit;cursor:pointer;text-decoration:underline;padding:0}
+.rev-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rev-head .del{margin-left:auto}
+.mini-btn{background:none;border:0;color:var(--gold);font:inherit;font-size:.85rem;cursor:pointer;padding:2px 0;text-decoration:underline}
+.mini-btn.del{color:#ff8a8a}
+.replies{margin-top:10px;display:grid;gap:8px}
+.reply{background:rgba(255,255,255,.05);border-radius:8px;padding:8px 12px;border-left:3px solid var(--gold)}
+.reply b{color:var(--sky);font-size:.9rem}
+.reply p{margin:2px 0 0;font-size:.95rem}
+.reply-form{display:grid;gap:8px;margin-top:10px}
+.reply-form textarea{width:100%}
+.reply-form .row{display:flex;gap:8px}
+.reply-form .btn{padding:8px 16px;font-size:.9rem}
+
+/* Left column: reviews + link to Google, and the sign-in card */
+.rev-left{display:grid;gap:18px;align-content:start}
+.g-all{color:var(--gold);font:700 1.05rem 'Sora',sans-serif;text-decoration:none}
+.g-all:hover{text-decoration:underline}
+.auth-box{display:grid;gap:6px;justify-items:start}
+.g-btn{width:100%;justify-content:center;padding:14px 22px;font-size:1.05rem}
