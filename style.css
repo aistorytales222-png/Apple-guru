@@ -382,3 +382,9 @@ td{transition:background .2s}
 .g-all:hover{text-decoration:underline}
 .auth-box{display:grid;gap:6px;justify-items:start}
 .g-btn{width:100%;justify-content:center;padding:14px 22px;font-size:1.05rem}
+
+/* Hero image above the headline */
+.hero-visual{display:block;width:min(430px,82%);height:auto;margin:-24px 0 14px -8px;animation:floaty 6s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:800px){.hero-visual{width:min(300px,84%);margin:0 0 6px}}
+@media(prefers-reduced-motion:reduce){.hero-visual{animation:none}}
