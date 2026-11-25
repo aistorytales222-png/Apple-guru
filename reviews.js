@@ -8,12 +8,12 @@ import { getFirestore, collection, doc, setDoc, addDoc, deleteDoc, getDocs, quer
 
 /* ====== PASTE YOUR FIREBASE CONFIG HERE (Firebase console > Project settings > Your apps) ====== */
 const firebaseConfig = {
-  apiKey: "PASTE_HERE",
-  authDomain: "PASTE_HERE",
-  projectId: "PASTE_HERE",
-  storageBucket: "PASTE_HERE",
-  messagingSenderId: "PASTE_HERE",
-  appId: "PASTE_HERE"
+  apiKey: "AIzaSyDe36ZvyUvhOzDl5E8xZchCbbbDoQvqfNQ",
+  authDomain: "apple-guru.firebaseapp.com",
+  projectId: "apple-guru",
+  storageBucket: "apple-guru.firebasestorage.app",
+  messagingSenderId: "636176448561",
+  appId: "1:636176448561:web:950b09012845fb1a6fa910"
 };
 /* Shop owner's Gmail: this account can delete any review or reply (must match the email in the Firestore rules). */
 const OWNER_EMAIL = '';
