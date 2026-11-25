@@ -197,7 +197,8 @@ async function signIn() {
     if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') {
       signInWithRedirect(auth, provider);
     } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      alert('Sign-in failed. Please try again.');
+      console.error('Sign-in error', e);
+      alert('Sign-in failed (' + (e.code || e.message) + '). Please try again.');
     }
   }
 }
