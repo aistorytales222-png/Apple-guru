@@ -52,10 +52,8 @@ const openReplies = new Set();
 const drafts = {};
 
 const isOwner = () => !!(user && OWNER_EMAIL && user.email && user.email.toLowerCase() === OWNER_EMAIL.toLowerCase());
-const shortName = n => {
-  const p = String(n || 'Customer').trim().split(/\s+/);
-  return p.length > 1 ? p[0] + ' ' + p[p.length - 1][0] + '.' : p[0];
-};
+/* shows the customer's full Google name */
+const shortName = n => String(n || 'Customer').trim();
 const mk = (tag, cls, text) => {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
